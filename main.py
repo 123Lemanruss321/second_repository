@@ -2,19 +2,24 @@ from datetime import datetime
 
 
 def string_to_date(date_string):
-   converted_date = datetime.strptime(date_string, "%Y.%m.%d").date()
-   return converted_date
-   
+    return datetime.strptime(date_string, "%Y.%m.%d").date()
 
 
-def date_to_string(date):
-    converted_string = datetime.strftime(date, "%Y.%m.%d")
-    return converted_string
+def prepare_user_list(user_data):
+    list_of_dicts = []
+    for dicts in user_data:
+        dicts["birthday"] = string_to_date(dicts["birthday"])
+        list_of_dicts.append(dicts)
+    return(list_of_dicts)
 
+    
+users = [
+    {"name": "Bill Gates", "birthday": "1955.3.25"},
+    {"name": "Steve Jobs", "birthday": "1955.3.21"},
+    {"name": "Jinny Lee", "birthday": "1956.3.22"},
+    {"name": "John Doe", "birthday": "1985.01.23"},
+    {"name": "Jane Smith", "birthday": "1990.01.27"}
+]
 
-date_string = "2024.01.01"
-converted_date = string_to_date(date_string)
-print(converted_date)
-date = string_to_date
-date_string = date_to_string(converted_date)
-print(date_string)
+prepared_users = prepare_user_list(users)
+print(prepared_users)
