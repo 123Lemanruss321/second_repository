@@ -1,54 +1,21 @@
-from datetime import datetime, date, timedelta
-
-
-def string_to_date(date_string):
-    return datetime.strptime(date_string, "%Y.%m.%d").date()
-
-
-def date_to_string(date):
-    return date.strftime("%Y.%m.%d")
-
-
-def prepare_user_list(user_data):
-    prepared_list = []
-    for user in user_data:
-        prepared_list.append({"name": user["name"], "birthday": string_to_date(user["birthday"])})
-    return prepared_list
-
-
-def find_next_weekday(start_date, weekday):
-    days_ahead = weekday - start_date.weekday()
-    if days_ahead <= 0:
-        days_ahead += 7
-    return start_date + timedelta(days=days_ahead)
-
-
-def adjust_for_weekend(birthday):
-    if birthday.weekday() >= 5:
-        return find_next_weekday(birthday, 0)
-    return birthday
-
-
-def get_upcoming_birthdays(users, days=7):
-    upcoming_birthdays = []
-    today = date.today()
-
-    for user in users:
-        birthday_this_year = user["birthday"].replace(year=today.year)
-
-        if birthday_this_year < today:
-            birthday_next_year = find_next_weekday(birthday_this_year)
-            return birthday_next_year
-        else:
-            return birthday_this_year
-       
-    for user in users:
-        if 0 <= (birthday_this_year - today).days <= days:
-            day_next_week = adjust_for_weekend(birthday_this_year)
-            return day_next_week
-        else:
-            return birthday_this_year
-            
-        congratulation_date_str = date_to_string(birthday_this_year)
-        upcoming_birthdays.append({"name": user["name"], "congratulation_date": congratulation_date_str})
-    return upcoming_birthdays
+from random import randint
+def get_numbers_ticket (min_value, max_value, quantity) -> int:
+    try:
+        result_array = set()
+        if min_value >= 1 and max_value <= 1000:
+            while len(result_array) != quantity:
+                result_array.add(randint(min_value, max_value))
+        elif min_value < 1 and max_value > 1000:
+            print ("Minimal Value must be >=1 and Maximal Value must be <=1000")
+        elif max_value > 1000:
+            print ("Maximal Value must be <=1000")
+        elif min_value < 1:
+            print ("Minimal Value must be >=1")
+        result_array = sorted(list(result_array))
+        return result_array
+    except TypeError:
+        return (print("Every Values must be only int. digits"))
+    
+    
+lottery_numbers = get_numbers_ticket(1, 100, 30)
+print("Ваші лотерейні числа:", lottery_numbers)
